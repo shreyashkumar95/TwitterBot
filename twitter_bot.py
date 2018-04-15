@@ -1,11 +1,9 @@
 #!/usr/bin/env python3
-
 """
 Code by Daniel Copley
 Source @ GitHub.com/djcopley
 Version 0.1.2-beta
 """
-
 import twitter
 import re
 import argparse
