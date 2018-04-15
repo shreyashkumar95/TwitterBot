@@ -1,9 +1,11 @@
+#!/usr/bin/env python3
+
 """
 Code by Daniel Copley
 Source @ GitHub.com/djcopley
-Version 0.1.1-beta
+Version 0.1.2-beta
 """
-#!/usr/bin/env python3
+
 import twitter
 import re
 import argparse
@@ -23,11 +25,14 @@ cleverbot = CleverWrap(api_key=CleverBot.API_KEY)
 # Argument Parsing
 parser = argparse.ArgumentParser(description='A bot that automatically responds to tweets.',
                                  prog='Twitter Bot')
-parser.add_argument('handle', help='your twitter @handle', type=str)
+parser.add_argument('twitter_handle', help='your twitter @handle', type=str)
 parser.add_argument('-q', '--quiet', help='disables console output of non-errors', action='store_true', default=False)
 parser.add_argument('-l', '--log', help='change logging level', type=int, choices=[0, 1, 2], default=0)
 
 arguments = parser.parse_args()
+
+# TODO Setup logger
+logger = logging.Logger('')
 
 
 def send_tweet(handle, text):
@@ -45,8 +50,9 @@ def strip_user_handles(text):
 
 
 if __name__ == '__main__':
+    print('~ TwitterBot is now running ~')
     try:
-        for tweet in api.GetStreamFilter(track=[str(arguments.handle)]):
+        for tweet in api.GetStreamFilter(track=[str(arguments.twitter_handle)]):
             response = cleverbot.say(strip_user_handles(tweet['text']))
             send_tweet(tweet['user']['screen_name'], response)
 
@@ -56,4 +62,4 @@ if __name__ == '__main__':
                 print('Reply: {}'.format(response))
 
     except KeyboardInterrupt:
-        print('\nQuitting')
+        print('\n~ Quitting ~')
